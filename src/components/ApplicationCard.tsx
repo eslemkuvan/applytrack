@@ -3,6 +3,7 @@ interface ApplicationCardProps {
   position: string
   status: string
   onDelete: () => void 
+  onEdit: () => void
 }
 
 function ApplicationCard(props: ApplicationCardProps) {
@@ -11,6 +12,11 @@ function ApplicationCard(props: ApplicationCardProps) {
       <h3>{props.company}</h3>
       <p>Pozisyon: {props.position}</p>
       <p>Durum: {props.status}</p>
+
+       <button type="button" onClick={props.onEdit}>
+        Düzenle
+      </button>
+
 
       <button type="button" onClick={props.onDelete}>
   Başvuruyu sil

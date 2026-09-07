@@ -65,6 +65,7 @@ function App() {
 const [status, setStatus] = useState('Başvuruldu')
 const [searchTerm, setSearchTerm] = useState('')
 const [statusFilter, setStatusFilter] = useState('Tümü')
+const [editingId, setEditingId] = useState<number | null>(null)
 
 useEffect(() => {
   localStorage.setItem(
@@ -73,24 +74,56 @@ useEffect(() => {
   )
 }, [applications])
 
-function handleAddApplication(event: FormEvent<HTMLFormElement>) {
- event.preventDefault()
-
-    if (company.trim() === '' || position.trim() === '') {
-    return
-  } 
-  const newApplication = {
-    id: Date.now(),
-    company: company.trim(),
-    position: position.trim(),
-    status: 'Başvuruldu',
-  }
-
-  setApplications([...applications, newApplication])
-  setCompany (' ')
+function resetForm() {
+  setCompany('')
   setPosition('')
   setStatus('Başvuruldu')
+  setEditingId(null)
 }
+function handleSubmitApplication(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault()
+
+  const trimmedCompany = company.trim()
+  const trimmedPosition = position.trim()
+
+  if (trimmedCompany === '' || trimmedPosition === '') {
+    return
+  }
+
+  if (editingId !== null) {
+    const updatedApplications = applications.map((application) =>
+      application.id === editingId
+        ? {
+            ...application,
+            company: trimmedCompany,
+            position: trimmedPosition,
+            status,
+          }
+        : application,
+    )
+
+    setApplications(updatedApplications)
+  } else {
+    const newApplication = {
+      id: Date.now(),
+      company: trimmedCompany,
+      position: trimmedPosition,
+      status,
+    }
+
+    setApplications([...applications, newApplication])
+  }
+
+  resetForm()
+}
+
+function handleEditApplication(application: Application) {
+  setEditingId(application.id)
+  setCompany(application.company)
+  setPosition(application.position)
+  setStatus(application.status)
+}
+
 function handleDeleteApplication(id: number) {
   const updatedApplications = applications.filter(
     (application) => application.id !== id,
@@ -130,7 +163,7 @@ const filteredApplications = applications.filter((application) => {
        
        
 
-       <form onSubmit={handleAddApplication}>
+       <form onSubmit={handleSubmitApplication}>
   <div>
     <label htmlFor="company">Şirket adı</label>
 
@@ -174,7 +207,18 @@ const filteredApplications = applications.filter((application) => {
   </div>
 
 
-  <button type="submit">Başvuruyu ekle</button>
+ <button type="submit">
+  {editingId !== null
+    ? 'Değişiklikleri kaydet'
+    : 'Başvuruyu ekle'}
+</button>
+
+{editingId !== null && (
+  <button type="button" onClick={resetForm}>
+    İptal
+  </button>
+)}
+
 </form>
 
 <div>
@@ -217,6 +261,7 @@ const filteredApplications = applications.filter((application) => {
         company={application.company}
         position={application.position}
         status={application.status}
+        onEdit={() => handleEditApplication(application)}
         onDelete={() => handleDeleteApplication(application.id)}
       />
     ))
