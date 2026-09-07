@@ -164,143 +164,190 @@ const offerCount = applications.filter(
 
 
 
-   return (
-    <main>
+  return (
+  <main className="app-container">
+    <header className="app-header">
+      <p className="eyebrow">KARİYER TAKİP PANELİ</p>
       <h1>ApplyTrack</h1>
       <p>Staj ve iş başvurularını tek yerde takip et.</p>
+    </header>
 
-       <section className="summary-grid" aria-label="Başvuru özeti">
-  <SummaryCard
-    title="Toplam Başvuru"
-    value={applications.length}
-  />
-
-  <SummaryCard
-    title="Başvuruldu"
-    value={appliedCount}
-  />
-
-  <SummaryCard
-    title="Mülakat"
-    value={interviewCount}
-  />
-
-  <SummaryCard
-    title="Teklif"
-    value={offerCount}
-  />
-</section>
-       
-
-       <form onSubmit={handleSubmitApplication}>
-  <div>
-    <label htmlFor="company">Şirket adı</label>
-
-    <input
-      id="company"
-      type="text"
-      value={company}
-      onChange={(event) => setCompany(event.target.value)}
-      placeholder="Örneğin: Turkcell"
-      required
-    />
-  </div>
-
-  <div>
-    <label htmlFor="position">Pozisyon</label>
-
-    <input
-      id="position"
-      type="text"
-      value={position}
-      onChange={(event) => setPosition(event.target.value)}
-      placeholder="Örneğin: Frontend Developer Intern"
-      required
-    />
-  </div>
-
-  <div>
-    <label htmlFor="status">Başvuru durumu</label>
-
-    <select
-      id="status"
-      value={status}
-      onChange={(event) => setStatus(event.target.value)}
-    >
-      <option value="Başvuruldu">Başvuruldu</option>
-      <option value="Değerlendiriliyor">Değerlendiriliyor</option>
-      <option value="Mülakat">Mülakat</option>
-      <option value="Teklif">Teklif</option>
-      <option value="Olumsuz">Olumsuz</option>
-    </select>
-  </div>
-
-
- <button type="submit">
-  {editingId !== null
-    ? 'Değişiklikleri kaydet'
-    : 'Başvuruyu ekle'}
-</button>
-
-{editingId !== null && (
-  <button type="button" onClick={resetForm}>
-    İptal
-  </button>
-)}
-
-</form>
-
-<div>
-  <label htmlFor="search">Başvurularda ara</label>
-
-  <input
-    id="search"
-    type="search"
-    value={searchTerm}
-    onChange={(event) => setSearchTerm(event.target.value)}
-    placeholder="Şirket veya pozisyon ara"
-  />
-</div>
-
-<div>
-  <label htmlFor="status-filter">Duruma göre filtrele</label>
-
-  <select
-    id="status-filter"
-    value={statusFilter}
-    onChange={(event) => setStatusFilter(event.target.value)}
-  >
-    <option value="Tümü">Tümü</option>
-    <option value="Başvuruldu">Başvuruldu</option>
-    <option value="Değerlendiriliyor">Değerlendiriliyor</option>
-    <option value="Mülakat">Mülakat</option>
-    <option value="Teklif">Teklif</option>
-    <option value="Olumsuz">Olumsuz</option>
-  </select>
-</div>
-
-      
-<section>
-  {filteredApplications.length === 0 ? (
-    <p>Aramanıza uygun başvuru bulunamadı.</p>
-  ) : (
-    filteredApplications.map((application) => (
-      <ApplicationCard
-        key={application.id}
-        company={application.company}
-        position={application.position}
-        status={application.status}
-        onEdit={() => handleEditApplication(application)}
-        onDelete={() => handleDeleteApplication(application.id)}
+    <section className="summary-grid" aria-label="Başvuru özeti">
+      <SummaryCard
+        title="Toplam Başvuru"
+        value={applications.length}
       />
-    ))
-  )}
-</section>
-     
 
-      
-    </main>
-  )
+      <SummaryCard
+        title="Başvuruldu"
+        value={appliedCount}
+      />
+
+      <SummaryCard
+        title="Mülakat"
+        value={interviewCount}
+      />
+
+      <SummaryCard
+        title="Teklif"
+        value={offerCount}
+      />
+    </section>
+
+    <section className="panel">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">BAŞVURU FORMU</p>
+
+          <h2>
+            {editingId !== null
+              ? 'Başvuruyu düzenle'
+              : 'Yeni başvuru ekle'}
+          </h2>
+        </div>
+      </div>
+
+      <form
+        className="application-form"
+        onSubmit={handleSubmitApplication}
+      >
+        <div className="form-group">
+          <label htmlFor="company">Şirket adı</label>
+
+          <input
+            id="company"
+            type="text"
+            value={company}
+            onChange={(event) => setCompany(event.target.value)}
+            placeholder="Örneğin: Turkcell"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="position">Pozisyon</label>
+
+          <input
+            id="position"
+            type="text"
+            value={position}
+            onChange={(event) => setPosition(event.target.value)}
+            placeholder="Örneğin: Frontend Developer Intern"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="status">Başvuru durumu</label>
+
+          <select
+            id="status"
+            value={status}
+            onChange={(event) => setStatus(event.target.value)}
+          >
+            <option value="Başvuruldu">Başvuruldu</option>
+            <option value="Değerlendiriliyor">
+              Değerlendiriliyor
+            </option>
+            <option value="Mülakat">Mülakat</option>
+            <option value="Teklif">Teklif</option>
+            <option value="Olumsuz">Olumsuz</option>
+          </select>
+        </div>
+
+        <div className="form-actions">
+          <button className="primary-button" type="submit">
+            {editingId !== null
+              ? 'Değişiklikleri kaydet'
+              : 'Başvuruyu ekle'}
+          </button>
+
+          {editingId !== null && (
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={resetForm}
+            >
+              İptal
+            </button>
+          )}
+        </div>
+      </form>
+    </section>
+
+    <section className="panel">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">BAŞVURU LİSTESİ</p>
+          <h2>Başvurularım</h2>
+        </div>
+
+        <span>{filteredApplications.length} kayıt gösteriliyor</span>
+      </div>
+
+      <div className="filters-grid">
+        <div className="form-group">
+          <label htmlFor="search">Başvurularda ara</label>
+
+          <input
+            id="search"
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Şirket veya pozisyon ara"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="status-filter">
+            Duruma göre filtrele
+          </label>
+
+          <select
+            id="status-filter"
+            value={statusFilter}
+            onChange={(event) =>
+              setStatusFilter(event.target.value)
+            }
+          >
+            <option value="Tümü">Tümü</option>
+            <option value="Başvuruldu">Başvuruldu</option>
+            <option value="Değerlendiriliyor">
+              Değerlendiriliyor
+            </option>
+            <option value="Mülakat">Mülakat</option>
+            <option value="Teklif">Teklif</option>
+            <option value="Olumsuz">Olumsuz</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section
+      className="application-grid"
+      aria-label="Başvuru listesi"
+    >
+      {filteredApplications.length === 0 ? (
+        <p className="empty-message">
+          Aramanıza uygun başvuru bulunamadı.
+        </p>
+      ) : (
+        filteredApplications.map((application) => (
+          <ApplicationCard
+            key={application.id}
+            company={application.company}
+            position={application.position}
+            status={application.status}
+            onEdit={() => handleEditApplication(application)}
+            onDelete={() =>
+              handleDeleteApplication(application.id)
+            }
+          />
+        ))
+      )}
+    </section>
+  </main>
+)
 }
 
 export default App

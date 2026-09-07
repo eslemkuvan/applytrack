@@ -7,23 +7,33 @@ interface ApplicationCardProps {
 }
 
 function ApplicationCard(props: ApplicationCardProps) {
-  return (
-    <article>
+ return (
+  <article className="application-card">
+    <div className="card-content">
+      <span className="status-badge">{props.status}</span>
       <h3>{props.company}</h3>
-      <p>Pozisyon: {props.position}</p>
-      <p>Durum: {props.status}</p>
+      <p>{props.position}</p>
+    </div>
 
-       <button type="button" onClick={props.onEdit}>
+    <div className="card-actions">
+      <button
+        className="edit-button"
+        type="button"
+        onClick={props.onEdit}
+      >
         Düzenle
       </button>
 
-
-      <button type="button" onClick={props.onDelete}>
-  Başvuruyu sil
-</button>
-    </article>
-
-  )
+      <button
+        className="delete-button"
+        type="button"
+        onClick={props.onDelete}
+      >
+        Sil
+      </button>
+    </div>
+  </article>
+)
 }
 
 export default ApplicationCard
