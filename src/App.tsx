@@ -1,7 +1,7 @@
 import './App.css'
 
 import ApplicationCard from './components/ApplicationCard'
-
+import SummaryCard from './components/SummaryCard'
 import { useEffect, useState, type FormEvent } from 'react'
 
 interface Application {
@@ -148,7 +148,17 @@ const filteredApplications = applications.filter((application) => {
   return matchesSearch && matchesStatus
 })
 
+const appliedCount = applications.filter(
+  (application) => application.status === 'Başvuruldu',
+).length
 
+const interviewCount = applications.filter(
+  (application) => application.status === 'Mülakat',
+).length
+
+const offerCount = applications.filter(
+  (application) => application.status === 'Teklif',
+).length
 
 
 
@@ -159,8 +169,27 @@ const filteredApplications = applications.filter((application) => {
       <h1>ApplyTrack</h1>
       <p>Staj ve iş başvurularını tek yerde takip et.</p>
 
-      <h2>Toplam Başvuru: {applications.length}</h2>
-       
+       <section className="summary-grid" aria-label="Başvuru özeti">
+  <SummaryCard
+    title="Toplam Başvuru"
+    value={applications.length}
+  />
+
+  <SummaryCard
+    title="Başvuruldu"
+    value={appliedCount}
+  />
+
+  <SummaryCard
+    title="Mülakat"
+    value={interviewCount}
+  />
+
+  <SummaryCard
+    title="Teklif"
+    value={offerCount}
+  />
+</section>
        
 
        <form onSubmit={handleSubmitApplication}>
