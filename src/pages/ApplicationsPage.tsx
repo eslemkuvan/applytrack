@@ -17,12 +17,13 @@ function ApplicationsPage({
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('Tümü')
   const [editingId, setEditingId] = useState<number | null>(null)
-
+  const [applicationDate, setApplicationDate] = useState('')
   function resetForm() {
     setCompany('')
     setPosition('')
     setStatus('Başvuruldu')
     setEditingId(null)
+    setApplicationDate('')
   }
 
   function handleSubmitApplication(
@@ -56,6 +57,7 @@ function ApplicationsPage({
         company: trimmedCompany,
         position: trimmedPosition,
         status,
+        applicationDate,
       }
 
       onApplicationsChange([...applications, newApplication])
@@ -69,6 +71,7 @@ function ApplicationsPage({
     setCompany(application.company)
     setPosition(application.position)
     setStatus(application.status)
+    setApplicationDate(application.applicationDate)
   }
 
   function handleDeleteApplication(id: number) {
@@ -149,6 +152,20 @@ function ApplicationsPage({
               required
             />
           </div>
+
+          <div className="form-group">
+  <label htmlFor="application-date">Başvuru tarihi</label>
+
+  <input
+    id="application-date"
+    type="date"
+    value={applicationDate}
+    onChange={(event) =>
+      setApplicationDate(event.target.value)
+    }
+    required
+  />
+</div>
 
           <div className="form-group">
             <label htmlFor="status">Başvuru durumu</label>
@@ -255,6 +272,7 @@ function ApplicationsPage({
               company={application.company}
               position={application.position}
               status={application.status}
+              applicationDate={application.applicationDate}
               onEdit={() => handleEditApplication(application)}
               onDelete={() =>
                 handleDeleteApplication(application.id)

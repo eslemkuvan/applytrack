@@ -2,38 +2,46 @@ interface ApplicationCardProps {
   company: string
   position: string
   status: string
-  onDelete: () => void 
+  applicationDate: string
+  onDelete: () => void
   onEdit: () => void
 }
 
 function ApplicationCard(props: ApplicationCardProps) {
- return (
-  <article className="application-card">
-    <div className="card-content">
-      <span className="status-badge">{props.status}</span>
-      <h3>{props.company}</h3>
-      <p>{props.position}</p>
-    </div>
+  const formattedApplicationDate = props.applicationDate
+    ? new Intl.DateTimeFormat('tr-TR').format(
+        new Date(`${props.applicationDate}T00:00:00`),
+      )
+    : 'Belirtilmedi'
 
-    <div className="card-actions">
-      <button
-        className="edit-button"
-        type="button"
-        onClick={props.onEdit}
-      >
-        Düzenle
-      </button>
+  return (
+    <article className="application-card">
+      <div className="card-content">
+        <span className="status-badge">{props.status}</span>
+        <h3>{props.company}</h3>
+        <p>{props.position}</p>
+        <p>Başvuru tarihi: {formattedApplicationDate}</p>
+      </div>
 
-      <button
-        className="delete-button"
-        type="button"
-        onClick={props.onDelete}
-      >
-        Sil
-      </button>
-    </div>
-  </article>
-)
+      <div className="card-actions">
+        <button
+          className="edit-button"
+          type="button"
+          onClick={props.onEdit}
+        >
+          Düzenle
+        </button>
+
+        <button
+          className="delete-button"
+          type="button"
+          onClick={props.onDelete}
+        >
+          Sil
+        </button>
+      </div>
+    </article>
+  )
 }
 
 export default ApplicationCard

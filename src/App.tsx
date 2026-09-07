@@ -13,24 +13,28 @@ const initialApplications: Application[] = [
     company: 'Ardıç Teknoloji',
     position: 'Frontend Developer Intern',
     status: 'Başvuruldu',
+    applicationDate: '2026-08-24',
   },
   {
     id: 2,
     company: 'Paynion',
     position: 'Software Developer Intern',
     status: 'Değerlendiriliyor',
+    applicationDate: '2026-08-24',
   },
   {
     id: 3,
     company: 'Makrops',
     position: 'Long-Term Intern',
     status: 'Mülakat',
+    applicationDate: '2026-08-24',
   },
   {
     id: 4,
     company: 'i2i Systems',
     position: 'Long-Term Intern',
     status: 'Tamamlandı',
+    applicationDate: '2026-08-24',
   },
 ]
 
@@ -44,10 +48,20 @@ function getInitialApplications(): Application[] {
   }
 
   try {
-    return JSON.parse(savedApplications) as Application[]
-  } catch {
-    return initialApplications
-  }
+  const parsedApplications = JSON.parse(
+    savedApplications,
+  ) as SavedApplication[]
+
+  return parsedApplications.map((application) => ({
+    ...application,
+    applicationDate: application.applicationDate ?? '',
+  }))
+} catch {
+  return initialApplications
+}
+}
+type SavedApplication = Omit<Application, 'applicationDate'> & {
+  applicationDate?: string
 }
 
 function App() {
