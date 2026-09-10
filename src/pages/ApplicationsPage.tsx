@@ -322,6 +322,7 @@ function ApplicationsPage({
           sortedApplications.map((application) => (
             <ApplicationCard
               key={application.id}
+              applicationId={application.id}
               company={application.company}
               position={application.position}
               status={application.status}
@@ -330,6 +331,7 @@ function ApplicationsPage({
               onDelete={() =>
                 handleDeleteApplication(application.id)
               }
+              
             />
           ))
         )}

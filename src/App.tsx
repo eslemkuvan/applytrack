@@ -6,6 +6,7 @@ import Navigation from './components/Navigation'
 import DashboardPage from './pages/DashboardPage'
 import ApplicationsPage from './pages/ApplicationsPage'
 import type { Application } from './types/Application'
+import ApplicationDetailPage from './pages/ApplicationDetailPage'
 
 const initialApplications: Application[] = [
   {
@@ -80,25 +81,34 @@ function App() {
       <Navigation />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <main className="app-container">
-              <DashboardPage applications={applications} />
-            </main>
-          }
-        />
+  <Route
+    path="/"
+    element={
+      <main className="app-container">
+        <DashboardPage applications={applications} />
+      </main>
+    }
+  />
 
-        <Route
-          path="/applications"
-          element={
-            <ApplicationsPage
-              applications={applications}
-              onApplicationsChange={setApplications}
-            />
-          }
-        />
-      </Routes>
+  <Route
+    path="/applications"
+    element={
+      <ApplicationsPage
+        applications={applications}
+        onApplicationsChange={setApplications}
+      />
+    }
+  />
+
+  <Route
+    path="/applications/:id"
+    element={
+      <ApplicationDetailPage
+        applications={applications}
+      />
+    }
+  />
+</Routes>
     </>
   )
 }
