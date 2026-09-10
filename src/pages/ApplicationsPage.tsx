@@ -14,16 +14,18 @@ function ApplicationsPage({
   const [company, setCompany] = useState('')
   const [position, setPosition] = useState('')
   const [status, setStatus] = useState('Başvuruldu')
+  const [applicationDate, setApplicationDate] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('Tümü')
+  const [sortOrder, setSortOrder] = useState('newest')
   const [editingId, setEditingId] = useState<number | null>(null)
-  const [applicationDate, setApplicationDate] = useState('')
+
   function resetForm() {
     setCompany('')
     setPosition('')
     setStatus('Başvuruldu')
-    setEditingId(null)
     setApplicationDate('')
+    setEditingId(null)
   }
 
   function handleSubmitApplication(
@@ -34,7 +36,11 @@ function ApplicationsPage({
     const trimmedCompany = company.trim()
     const trimmedPosition = position.trim()
 
-    if (trimmedCompany === '' || trimmedPosition === '') {
+    if (
+      trimmedCompany === '' ||
+      trimmedPosition === '' ||
+      applicationDate === ''
+    ) {
       return
     }
 
@@ -46,6 +52,7 @@ function ApplicationsPage({
               company: trimmedCompany,
               position: trimmedPosition,
               status,
+              applicationDate,
             }
           : application,
       )
@@ -102,6 +109,31 @@ function ApplicationsPage({
     return matchesSearch && matchesStatus
   })
 
+  const sortedApplications: Application[] = [
+    ...filteredApplications,
+  ].sort((firstApplication, secondApplication) => {
+    const firstDate = firstApplication.applicationDate
+    const secondDate = secondApplication.applicationDate
+
+    if (!firstDate && !secondDate) {
+      return 0
+    }
+
+    if (!firstDate) {
+      return 1
+    }
+
+    if (!secondDate) {
+      return -1
+    }
+
+    if (sortOrder === 'oldest') {
+      return firstDate.localeCompare(secondDate)
+    }
+
+    return secondDate.localeCompare(firstDate)
+  })
+
   return (
     <main className="app-container">
       <header className="app-header">
@@ -154,18 +186,20 @@ function ApplicationsPage({
           </div>
 
           <div className="form-group">
-  <label htmlFor="application-date">Başvuru tarihi</label>
+            <label htmlFor="application-date">
+              Başvuru tarihi
+            </label>
 
-  <input
-    id="application-date"
-    type="date"
-    value={applicationDate}
-    onChange={(event) =>
-      setApplicationDate(event.target.value)
-    }
-    required
-  />
-</div>
+            <input
+              id="application-date"
+              type="date"
+              value={applicationDate}
+              onChange={(event) =>
+                setApplicationDate(event.target.value)
+              }
+              required
+            />
+          </div>
 
           <div className="form-group">
             <label htmlFor="status">Başvuru durumu</label>
@@ -214,7 +248,7 @@ function ApplicationsPage({
           </div>
 
           <span>
-            {filteredApplications.length} kayıt gösteriliyor
+            {sortedApplications.length} kayıt gösteriliyor
           </span>
         </div>
 
@@ -226,7 +260,9 @@ function ApplicationsPage({
               id="search"
               type="search"
               value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
+              onChange={(event) =>
+                setSearchTerm(event.target.value)
+              }
               placeholder="Şirket veya pozisyon ara"
             />
           </div>
@@ -254,6 +290,23 @@ function ApplicationsPage({
               <option value="Tamamlandı">Tamamlandı</option>
             </select>
           </div>
+
+          <div className="form-group">
+            <label htmlFor="sort-order">
+              Tarihe göre sırala
+            </label>
+
+            <select
+              id="sort-order"
+              value={sortOrder}
+              onChange={(event) =>
+                setSortOrder(event.target.value)
+              }
+            >
+              <option value="newest">En yeni başvuru</option>
+              <option value="oldest">En eski başvuru</option>
+            </select>
+          </div>
         </div>
       </section>
 
@@ -261,12 +314,12 @@ function ApplicationsPage({
         className="application-grid"
         aria-label="Başvuru listesi"
       >
-        {filteredApplications.length === 0 ? (
+        {sortedApplications.length === 0 ? (
           <p className="empty-message">
             Aramanıza uygun başvuru bulunamadı.
           </p>
         ) : (
-          filteredApplications.map((application) => (
+          sortedApplications.map((application) => (
             <ApplicationCard
               key={application.id}
               company={application.company}
