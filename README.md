@@ -1,75 +1,146 @@
-# React + TypeScript + Vite
+# ApplyTrack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ApplyTrack is a responsive job and internship application tracking application built with React and TypeScript.
 
-Currently, two official plugins are available:
+Users can add, edit, delete, search, filter, sort and review their applications from a simple dashboard.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Add new job and internship applications
+- Edit existing applications
+- Delete applications
+- Search by company or position
+- Filter applications by status
+- Sort applications by application date
+- View application details on a separate page
+- View application statistics on the dashboard
+- Save application data with localStorage
+- Responsive design for desktop, tablet and mobile devices
+- Client-side navigation with React Router
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technologies
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Vite
+- React Router
+- CSS
+- Web Storage API
+- ESLint
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Application Statuses
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Applications can be tracked with the following statuses:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Applied
+- Under Review
+- Interview
+- Offer
+- Rejected
+- Completed
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Routes
 
+| Route | Description |
+|---|---|
+| `/` | Application summary dashboard |
+| `/applications` | Application management page |
+| `/applications/:id` | Individual application detail page |
+
+## Project Structure
+
+```text
+src/
+├── components/
+│   ├── ApplicationCard.tsx
+│   ├── Navigation.tsx
+│   └── SummaryCard.tsx
+├── pages/
+│   ├── ApplicationDetailPage.tsx
+│   ├── ApplicationsPage.tsx
+│   └── DashboardPage.tsx
+├── types/
+│   └── Application.ts
+├── App.css
+├── App.tsx
+├── index.css
+└── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Make sure Node.js and npm are installed on your computer.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Install the project dependencies:
 
+```bash
+npm install
 ```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open the local address shown in the terminal, usually:
+
+```text
+http://localhost:5173
+```
+
+## Available Scripts
+
+```bash
+npm run dev
+```
+
+Starts the development server.
+
+```bash
+npm run lint
+```
+
+Checks the project for code quality problems.
+
+```bash
+npm run build
+```
+
+Creates a production-ready build.
+
+```bash
+npm run preview
+```
+
+Runs the production build locally for testing.
+
+## What I Learned
+
+While developing this project, I practised:
+
+- Creating reusable React components
+- Managing state with `useState`
+- Running side effects with `useEffect`
+- Passing data and callback functions with props
+- Lifting shared state to a parent component
+- Creating controlled forms
+- Rendering and transforming arrays
+- Using TypeScript interfaces
+- Saving and reading data with localStorage
+- Creating routes with React Router
+- Reading dynamic URL parameters with `useParams`
+- Using Git commits to track project development
+
+## Future Improvements
+
+- User authentication
+- Backend API and database integration
+- Application notes and company links
+- Deadline reminders
+- Automated component tests
+- Dark mode
+
+## Author
+
+Developed by Eslem Nur Kuvan.
