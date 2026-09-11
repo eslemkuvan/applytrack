@@ -18,6 +18,10 @@ Users can add, edit, delete, search, filter, sort and review their applications 
 - Responsive design for desktop, tablet and mobile devices
 - Client-side navigation with React Router
 
+## Live Demo
+
+[View the live application](https://applytrack-lilac-two.vercel.app)
+
 ## Technologies
 
 - React
